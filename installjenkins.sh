@@ -1,6 +1,4 @@
 ###################### Install jenkins and packages for jenkins And a few more ##########################
-
-
 #!/bin/bash
 
 echo "<< Updating now >>"

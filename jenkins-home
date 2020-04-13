@@ -1,0 +1,49 @@
+>> If you installed Jenkins and would like to change the home directory, do the following :
+>> In the standard home directory is /var/lib/jenkins.
+
+###############
+
+Step 1 : 
+>> Navigate to the root user using the following command :[ sudo -i ]
+
+
+Step 2 : 
+>> Before changing anything on the Jenkins master you have to stop the Jenkins server :[ sudo service jenkins stop ]
+
+
+Step 3 :
+>> Create a new directory where ever you want to move the Jenkins home to.
+In this article, I creating a new directory in /home/guy/Desktop/new_home like this :[ mkdir /home/guy/Desktop/new_home ]
+
+
+Step 4 :
+>> We need to change the ownership of a created directory by using the
+chown command to change the user and group ownership of the created directory. Command : [ sudo chown jenkins:jenkins /home/guy/Desktop/new_home/ ]
+
+
+Step 5 :
+>> Copy the content from old Jenkins home directory, /var/lib/jenkins , to the new Jenkins home directory that you create.
+Command :[ sudo cp -prv /var/lib/jenkins /home/guy/Desktop/new_home/ ]
+
+
+Step 6 :
+>> change the Jenkins user home. Command :[ sudo usermod -d /home/guy/Desktop/new_home/ jenkins ]
+
+
+Step 7 :
+>> Update the new Jenkins home directory path in :[ sudo vi/nano /etc/default/jenkins ]
+Go to # jenkins home location line and put the home directory that you create :[ JENKINS_HOME=/home/guy/Desktop/new_home ]
+
+
+Step 8 :
+>> Now  Start the Jenkins service :[ sudo service jenkins start ]
+
+
+Step 9 :
+>> then open your jenkins http://ip-address:8080/
+and put the admin password : do [ cat /home/guy/Desktop/new_home/secrets/initialAdminPassword ]
+
+Now go to your jenkins click on "Manage jenkins" then select the System Information tab and you will see that he has changed.
+run a job and check that
+
+

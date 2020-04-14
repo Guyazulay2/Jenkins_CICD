@@ -1,6 +1,6 @@
 ###################
 >> If you run a job and it writes permission denied 
-you need to modify the permission for jenkins user so that you can run the shell commands
+you need to modify the permission for jenkins user that you can run the shell commands
 
 Go to : sudo nano /etc/sysconfig/jenkins
 

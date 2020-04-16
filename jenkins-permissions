@@ -13,4 +13,16 @@ chown -R root:root /var/lib/jenkins
 chown -R root:root /var/cache/jenkins
 chown -R root:root /var/log/jenkins
 
-New start jenkins : [ service jenkins restart ] and thats all
+Now start jenkins : [ service jenkins restart ] and thats all
+
+If you run a job on slave and its says "Permission Denied, are you root? "
+Try that : 
+[ sudo nano /etc/sudousers ]
+
+At the end of the file add :[ Jenkins ALL=(ALL) NOPASSWD:ALL ]
+Save and exit.
+
+Then on your jenkins page, go to your job->configure->build triggers->build periodically
+and add sudo in front of your compile statement
+
+## EOF ##

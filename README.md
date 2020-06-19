@@ -6,5 +6,8 @@ Use Jenkins to automate your development workflow so you can focus on work that 
  - Running tests to detect bugs and other issues as soon as they are introduced
  - Static code analysis
  - Deployment
-fdsdcxcsd
-sdfsd
+
+
+echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+echo 'Defaults:jenkins !requiretty' >> /etc/sudoers
+setenforce 0 # Else disable SELINUX in /etc/sysconfig/selinux  and reboot

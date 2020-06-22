@@ -11,4 +11,5 @@ Use Jenkins to automate your development workflow so you can focus on work that 
 echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 echo 'Defaults:jenkins !requiretty' >> /etc/sudoers
+
 setenforce 0 # Else disable SELINUX in /etc/sysconfig/selinux  and reboot

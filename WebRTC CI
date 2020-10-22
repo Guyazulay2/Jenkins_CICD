@@ -1,0 +1,27 @@
+#!/bin/bash
+
+
+echo "<< Build >>"
+
+sudo git clone https://github.com/dspip/WebRTCController.git /home/dspip/WebRTCController
+
+sudo docker build -t webrtccontroller /home/dspip/WebRTCController
+
+sudo docker run -it -d --name webrtc_controller --network="host" webrtccontroller
+
+
+
+sudo docker images && sudo docker ps -a
+sleep 1
+echo "Login to DockerHub.." sudo docker login --username=$username --password=$pass
+sleep 2
+
+
+echo "<<< Upload to Docker-hub  The webrtc_controller Version :$version >>>"
+sleep 3
+
+ID=`docker images --filter=reference=webrtccontroller --format "{{.ID}}"`
+
+sudo docker tag $ID $username/webrtc_controller:$version
+
+sudo docker push $username/webrtc_controller

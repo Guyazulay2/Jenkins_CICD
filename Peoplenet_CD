@@ -1,7 +1,10 @@
-echo "*** SSH to the client server ***"
+#!/bin/bash
 
-cd /home
-ssh -i new.pem ubuntu@13.57.229.27 '
+
+
+echo "---- SSH to the client server -----"
+
+cd /home && ssh -i /home/new.pem ubuntu@13.57.229.27 '
 
 pwd
 echo "** Install Nvidia Packages **" ; sleep 3
@@ -17,12 +20,13 @@ sudo apt-get update
 sudo apt-get install -y nvidia-docker2
 
 sudo systemctl restart docker
-echo "Installation done -------------" ; sleep 2
+echo "----------Installation done -------------" ; sleep 2
 
 nvidia-smi
 
 sudo git clone https://github.com/dspip/PeopleDetector.git -b peoplenet_latest /home/PeopleDetector/
 
+echo "--- Build the Dockerfile ---"
 sudo docker build -t peoplenet /home/PeopleDetector/ && pwd
 
 sudo nvidia-docker run --name peoplenet -it -d -p 4000-4003:4000-4003/udp -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY -w /PeopleDetector peoplenet && sleep 3

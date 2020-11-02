@@ -1,0 +1,38 @@
+#!/bin/bash
+
+
+
+echo "<< Build >>"
+if [ -d ./WebRTCController ]; then
+	sudo rm -r ./WebRTCController
+fi
+
+sudo git clone https://github.com/dspip/WebRTCController.git
+cd ./WebRTCController
+
+
+sudo chown -R jenkins:jenkins /var/lib/jenkins/workspace/WebRTC_CI/WebRTCController
+VERSION=$(cat VERSION)
+echo $VERSION
+echo "${VERSION}.${BUILD_NUMBER}" > VERSION
+sudo docker build -t webrtc_controller:${VERSION} .
+
+cd ..
+sudo mkdir dockerimages
+sudo chmod 777 dockerimages/
+cd dockerimages/
+
+echo "<< Create tar.gz file >>"
+
+sudo rm -rf *
+
+
+sudo docker save webrtc_controller:${VERSION} | gzip > webrtc_controller:${VERSION}.tar.gz
+
+
+#sudo docker save --output="webrtc_controller:${VERSION}.tar" webrtc_controller:${VERSION} ; sudo chmod 777 webrtc_controller:${VERSION}.tar
+
+#tar -czf - webrtc_controller:${VERSION}.tar | gzip > webrtc_controller:${VERSION}.tar.gz
+
+echo "<< Upload to S3 >>"
+aws s3 cp webrtc_controller:*.tar.gz s3://webrtccontroller/

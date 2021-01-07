@@ -5,7 +5,7 @@ echo "<< Build >>"
 
 cd $HOME && sudo git clone https://github.com/dspip/WebRTCController.git
 
-sudo docker build -t webrtccontroller
+sudo docker build -t webrtccontroller .
 
 sudo docker run -it -d --name webrtc_controller --network="host" webrtccontroller
 

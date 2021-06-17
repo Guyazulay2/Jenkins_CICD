@@ -1,0 +1,28 @@
+pipeline {
+    agent any 
+    }
+    stages {
+        stage('installation') {
+            steps {
+                sh 'apt-get install -y gstreamer1.0-tools gstreamer1.0-nice gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-plugins-good libgstreamer1.0-dev libglib2.0-dev libgstreamer-plugins-bad1.0-dev libsoup2.4-dev libjson-glib-dev'
+                sh 'apt-get install ubuntu-restricted-extras ffmpeg -y && apt-get install cmake ninja-build -y && apt-get install unzip -y'
+                sh 'sudo mkdir /home/opts && cd /home/opts'
+            }
+        }
+        stage('clone') {
+            steps {
+                sh 'sudo git clone https://github.com/Microsoft/vcpkg.git && cd /home/opts/vcpkg && sudo bash ./bootstrap-vcpkg.sh -useSystemBinaries'
+                sh 'cd /home/WebRTCController && VERSION=$(cat VERSION)'
+                sh 'sudo echo -e "'Version :'${VERSION}\n'Jenkins Build :'.${BUILD_NUMBER}" | sudo tee VERSION'
+                
+            }
+        }
+        stage('build') {
+            steps {
+                sh 'sudo mkdir build && cd build && sudo cmake .. -DCMAKE_TOOLCHAIN_FILE=/home/opts/vcpkg/scripts/buildsystems/vcpkg.cmake'
+                sh 'sudo cmake --build . --config Release --target all -- -j 6 '
+                sh 'sudo make install'
+            }
+        }
+    }
+}

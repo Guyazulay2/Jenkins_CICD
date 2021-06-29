@@ -3,7 +3,7 @@
 
 echo "<< Build >>"
 
-cd $HOME && sudo git clone https://github.com/dspip/WebRTCController.git
+cd $HOME && sudo git clone https://github.com/dspip/videohandler.git
 
 sudo docker build -t webrtccontroller .
 
